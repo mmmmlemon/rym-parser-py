@@ -5,6 +5,8 @@ import os
 from tabulate import tabulate
 import math
 
+clear = lambda: os.system('cls')
+
 #ф-ция, загрузить файл и преобразовать его в массив для последующей работы
 def load_file(filename):
 
@@ -129,29 +131,42 @@ def help():
 #главная ф-ция
 def main_func():
     print("Rate Your Music Parser v 0.1")
+    print("Type commands below")
     command = ""
     while command != "exit":
         print("cmd: ")
         command = input()
+        #basic stats
         if command == "bs":
             if(global_album_list != 0):
+                clear()
                 basic_stats(global_album_list)
+        #albums spreadsheet
         elif command == "as":
             if(global_album_list != 0):
+                clear()
                 show_album_spreadsheet(global_album_list)
+        #change filename
         elif command == "chf":
+            clear()
             print("New file name: ")
             filename = input()
             change_filename(filename)
+        #help
         elif command == "help":
+            clear()
             help()
+        #exit the program
         elif command == "exit":
             break
         else:
             print("No such command")
 
+
 global_filename = "albums"
 global_album_list = load_file(global_filename)
+
+clear()
 
 #запускаем главную ф-цию
 main_func()
