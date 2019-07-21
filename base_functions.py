@@ -1,21 +1,21 @@
 #содержит базовые функции программы
 import os
 import io
-
+import configparser
 from tabulate import tabulate
 
 #ф-ция, загрузить файл и преобразовать его в массив для последующей работы
 def load_file(filename):
-    if(os.path.isfile("./"+filename+".txt")):
+    if(os.path.isfile("./"+filename)):
         #открываем файл и читаем его содержимое
-        file = io.open(filename+".txt", "r", encoding='utf8')
+        file = io.open(filename, "r", encoding='utf8')
 
         #сохраняем содержимое файла в переменной строки
         file_string = file.read()
 
         #считаем количество строк в тексте
         num_of_lines = 0
-        with io.open(filename + ".txt", "r", encoding='utf8') as f:
+        with io.open(filename, "r", encoding='utf8') as f:
             num_of_lines = sum(1 for _ in f)
 
         #ищем индекс начала слова Review, принимаем его за начальный, с него начинаем читать файл
@@ -74,14 +74,17 @@ def show_album_spreadsheet(array):
     print(tabulate(array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
    
 #ф-ция, изменить имя файла
-def change_filename(new_filename):
-    global global_filename
-    global_filename = new_filename
-    global global_album_list
-    global_album_list = load_file(new_filename)
-    if (global_album_list != 0):
+def change_filename(new_filename, source_albumlist, source_filename):
+    source_filename = new_filename
+    config = configparser.ConfigParser()
+    config.read("conf.ini")
+    config['BASIC'] = {'file': new_filename}
+    with open('conf.ini', 'w') as configfile:
+        config.write(configfile)
+    source_albumlist = load_file(new_filename)
+    if (source_albumlist != 0):
         print("Имя файла было измененео!")
-             
+
 #ф-ция, справка по командам
 def help():
     print("bs - Общая статистика")

@@ -1,0 +1,4 @@
+RYM Album, First Name,Last Name,First Name localized, Last Name localized,Title,Release_Date,Rating,Ownership,Purchase Date,Media Type,Review
+"6579","","ABBA","","","Ring Ring","1973","4","n","","",  ""
+"6584","","ABBA","","","Super Trouper","1980","7","n","","",  ""
+"1095485","","Кино","","Kino","Кино (Чёрный альбом)","1990","8","n","","",  ""

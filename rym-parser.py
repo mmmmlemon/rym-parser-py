@@ -3,12 +3,17 @@ import io
 import os
 #импорт бибилиотеки для рисования таблиц
 from tabulate import tabulate
+#бибилотека для чтения конфигов
+import configparser
 
 #импортируем свои файлы
 from base_functions import *
 from stat_functions import *
 
 clear = lambda: os.system('cls')
+config = configparser.ConfigParser()
+config.read("conf.ini")
+
 
 #главная ф-ция
 def main_func():
@@ -33,7 +38,7 @@ def main_func():
             clear()
             print("New file name: ")
             filename = input()
-            change_filename(filename)
+            change_filename(filename, global_album_list, global_filename)
         #help
         elif command == "help":
             clear()
@@ -47,15 +52,17 @@ def main_func():
         else:
             print("Нет такой команды")
 
-global_filename = "albums"
+global_filename = config['BASIC']['file']
+
 global_album_list = load_file(global_filename)
 
-clear()
-
+#clear()
+print(global_filename)
 
 #запускаем главную ф-цию
 main_func()
 
+print(global_filename)
 
     
 
