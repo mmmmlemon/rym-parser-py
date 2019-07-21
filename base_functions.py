@@ -1,7 +1,7 @@
 #содержит базовые функции программы
 import os
 import io
-import math
+
 from tabulate import tabulate
 
 #ф-ция, загрузить файл и преобразовать его в массив для последующей работы
@@ -66,49 +66,13 @@ def load_file(filename):
 
         return album_display
     else:
-        print("File does not exist")
+        print("Файл не существует")
         return 0
         
 #ф-ция, вывод альбомов в виде таблицы
 def show_album_spreadsheet(array):
     print(tabulate(array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
    
-#ф-ция, базовая статистика
-def basic_stats(array):
-    #подисчитываем статистику
-    #всего альбомов
-    print ("Basic statistics")
-    albums_total_count = len(array)
-    print("Albums total: " + str(albums_total_count) + " albums")
-
-    #считаем среднюю оценку
-    avg_total = 0
-    for i in range (albums_total_count):
-        avg_total += int(array[i][4])
-    avg_total = avg_total / albums_total_count
-    avg_total = math.ceil(avg_total*10)/10
-    print("Avg. score: " + str(avg_total) + " / 10")
-
-    #количество всех оценок
-    all_scores_list = []
-
-    for score in range (1, 11):
-        count = 0
-        for i in range (len(array)):
-            if array[i][4] == str(score):
-                count+=1
-        all_scores_list.append(count)
-
-    print("Scores total:")
-    for i in range(len(all_scores_list)):
-        num = all_scores_list[i]
-        num_round = math.ceil(num / 10)
-        scores_line = ""
-        for ii in range(int(num_round)):
-            scores_line += "■"
-        scores_line += " - " + str(all_scores_list[i]) + "({})".format(i+1)
-        print(scores_line)
-
 #ф-ция, изменить имя файла
 def change_filename(new_filename):
     global global_filename
@@ -116,12 +80,11 @@ def change_filename(new_filename):
     global global_album_list
     global_album_list = load_file(new_filename)
     if (global_album_list != 0):
-        print("File name was successfully changed")
-        
-        
+        print("Имя файла было измененео!")
+             
 #ф-ция, справка по командам
 def help():
-    print("bs - Basic statistics")
-    print ("as - Albums spreadsheet")
-    print ("chf - Change the name of the data file")
+    print("bs - Общая статистика")
+    print ("as - Список всех альбомов")
+    print ("chf - Изменить имя файла с данными")
 

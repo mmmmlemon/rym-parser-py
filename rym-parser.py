@@ -4,17 +4,16 @@ import os
 #импорт бибилиотеки для рисования таблиц
 from tabulate import tabulate
 
-import plotly.graph_objects as go
-
 #импортируем свои файлы
 from base_functions import *
+from stat_functions import *
 
 clear = lambda: os.system('cls')
 
 #главная ф-ция
 def main_func():
     print("Rate Your Music Parser v 0.1")
-    print("Type commands below")
+    print("Пишите комнады внизу")
     command = ""
     while command != "exit":
         print("cmd: ")
@@ -44,10 +43,9 @@ def main_func():
             break
         elif command == "g":
             clear()
-            fig = go.Figure(data=go.Bar(y=[22, -13, 10]))
-            fig.show()
+
         else:
-            print("No such command")
+            print("Нет такой команды")
 
 global_filename = "albums"
 global_album_list = load_file(global_filename)
