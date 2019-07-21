@@ -45,5 +45,6 @@ def basic_stats(array):
     ))
 
     
-    fig = go.Figure(data=go.Bar(x=all_scores_names,y=all_scores_list, marker_color=score_colors, hovertext = score_hovertext),layout_title_text="Общая статистика ({} альбомов)".format(albums_total_count), layout=layout)
+    fig = go.Figure(data=go.Bar(x=all_scores_names,y=all_scores_list, marker_color=score_colors, 
+    hovertext = score_hovertext),layout_title_text="Общая статистика ({} альбомов)".format(albums_total_count), layout=layout)
     fig.show()

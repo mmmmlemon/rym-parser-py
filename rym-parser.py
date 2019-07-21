@@ -20,6 +20,8 @@ def main_func():
     print("Rate Your Music Parser v 0.1")
     print("Пишите комнады внизу")
     command = ""
+    global global_album_list
+    global global_filename
     while command != "exit":
         print("cmd: ")
         command = input()
@@ -38,7 +40,9 @@ def main_func():
             clear()
             print("New file name: ")
             filename = input()
-            change_filename(filename, global_album_list, global_filename)
+            if(change_filename(filename) != 0):
+                global_filename = change_filename(filename)
+                global_album_list = load_file(global_filename)
         #help
         elif command == "help":
             clear()
@@ -56,13 +60,11 @@ global_filename = config['BASIC']['file']
 
 global_album_list = load_file(global_filename)
 
-#clear()
-print(global_filename)
+clear()
 
 #запускаем главную ф-цию
 main_func()
 
-print(global_filename)
 
     
 

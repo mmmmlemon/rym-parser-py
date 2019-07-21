@@ -74,16 +74,19 @@ def show_album_spreadsheet(array):
     print(tabulate(array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
    
 #ф-ция, изменить имя файла
-def change_filename(new_filename, source_albumlist, source_filename):
-    source_filename = new_filename
-    config = configparser.ConfigParser()
-    config.read("conf.ini")
-    config['BASIC'] = {'file': new_filename}
-    with open('conf.ini', 'w') as configfile:
-        config.write(configfile)
-    source_albumlist = load_file(new_filename)
-    if (source_albumlist != 0):
-        print("Имя файла было измененео!")
+def change_filename(new_filename):
+    my_file = Path("/"+new_filename)
+    if my_file.is_file():
+        source_filename = new_filename
+        config = configparser.ConfigParser()
+        config.read("conf.ini")
+        config['BASIC'] = {'file': new_filename}
+        with open('conf.ini', 'w') as configfile:
+            config.write(configfile)
+        return new_filename
+    else:
+        print("Нет такого файла")
+        return 0
 
 #ф-ция, справка по командам
 def help():
