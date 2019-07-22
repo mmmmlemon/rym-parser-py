@@ -3,6 +3,7 @@ import os
 import io
 import configparser
 from tabulate import tabulate
+from pathlib import Path
 
 #ф-ция, загрузить файл и преобразовать его в массив для последующей работы
 def load_file(filename):
@@ -75,7 +76,7 @@ def show_album_spreadsheet(array):
    
 #ф-ция, изменить имя файла
 def change_filename(new_filename):
-    my_file = Path("/"+new_filename)
+    my_file = Path("./"+new_filename)
     if my_file.is_file():
         source_filename = new_filename
         config = configparser.ConfigParser()

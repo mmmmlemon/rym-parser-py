@@ -43,6 +43,7 @@ def main_func():
             if(change_filename(filename) != 0):
                 global_filename = change_filename(filename)
                 global_album_list = load_file(global_filename)
+                print ("Файл был изменен!")
         #help
         elif command == "help":
             clear()
