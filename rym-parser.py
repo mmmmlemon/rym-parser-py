@@ -61,7 +61,7 @@ global_filename = config['BASIC']['file']
 
 global_album_list = load_file(global_filename)
 
-clear()
+#clear()
 
 #запускаем главную ф-цию
 main_func()
