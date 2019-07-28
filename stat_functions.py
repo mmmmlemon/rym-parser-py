@@ -52,6 +52,21 @@ def basic_stats(array):
         all_scores_list.append(count)
         all_scores_names.append(score)
         
+    #количество прослушанных альбомов по десятилетиям
+    all_decades_list = []
+    all_decades_names = []
+    
+    #создаем список со всеми годами
+    all_years_divided = []
+    for i in range(len(array)):
+        num = array[i][3]
+        all_years_divided.append(num)
+
+    #print(all_years_divided)
+    
+    #количество прослушанных альбомов по годам
+    # TO - DO
+    
     #рисуем графики
     print("\nОбщее количество оценок")
     draw_graph(all_scores_list, all_scores_names)
