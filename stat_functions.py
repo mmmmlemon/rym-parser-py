@@ -59,10 +59,10 @@ def basic_stats(array):
     #создаем список со всеми годами
     all_years_divided = []
     for i in range(len(array)):
-        num = array[i][3]
+        num = int(array[i][3])
         all_years_divided.append(num)
-
-    #print(all_years_divided)
+        
+    print(all_years_divided)
     
     #количество прослушанных альбомов по годам
     # TO - DO
