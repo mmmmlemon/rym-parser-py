@@ -41,11 +41,10 @@ def load_file(filename):
                 txt = file_string[idx_firstQ:idx_lastQ]
                 if txt != "" and a != 10 and a != 8 or a == 6 or a == 1 or a == 2 or a == 3 or a == 4:
                     if a == 6:
-                        print(txt)
-                        txt_to_txt = ''.join(i for i in txt if i.isdigit())
-                        txt_to_num = int(txt_to_txt)
-                    else:
-                        current_album.append(txt)
+                        if txt == "":
+                            txt = "0"
+                        txt = int(txt)
+                    current_album.append(txt)
                 
                 index_start = file_string.find(",",idx_lastQ)
 
