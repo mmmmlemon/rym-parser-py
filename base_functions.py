@@ -67,7 +67,7 @@ def load_file(filename):
             del album_display[i][2]
 
         #сортировка списка по алфавиту и году выпуска альбома
-        album_display = sorted(album_display,key=lambda x: (x[1],x[3]))
+        album_display = sorted(album_display,key=lambda x: (x[1].lower(),x[3]))
 
         return album_display
     else:
@@ -95,6 +95,11 @@ def show_album_spreadsheet_by_year(array, year, command):
     if(len(new_array) == 0):
         print("Нет записей за этот год")
     else:
+        if(command == "default"):
+            new_array = sorted(new_array, key=lambda x: (x[1].lower()))
+        elif(command=="top"):
+            new_array = sorted(new_array, key=lambda x: (x[4]),reverse = True)
+            
         print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
    
 #ф-ция, изменить имя файла
@@ -115,6 +120,10 @@ def change_filename(new_filename):
 #ф-ция, справка по командам
 def help():
     print("bs - Общая статистика")
-    print ("as - Список всех альбомов")
-    print ("chf - Изменить имя файла с данными")
+    print ("\nas - Список всех альбомов")
+    print ("as-top - Список всех альбомов (от высоких оценок к низким)")
+    print ("as-bottom - Список всех альбомов (от низких оценок к высоким)")
+    print ("as-year - Список альбомов за выбранный год")
+    print ("as-year-top - Топ альбомов за выбранный год")
+    print ("\nchf - Изменить имя файла с данными")
 
