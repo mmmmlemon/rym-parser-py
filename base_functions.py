@@ -40,7 +40,7 @@ def load_file(filename):
                 #получаем подстроку при помощи индексов кавычек
                 txt = file_string[idx_firstQ:idx_lastQ]
                 if txt != "" and a != 10 and a != 8 or a == 6 or a == 1 or a == 2 or a == 3 or a == 4:
-                    if a == 6:
+                    if a == 6 or a == 7:
                         if txt == "":
                             txt = "0"
                         txt = int(txt)
@@ -75,8 +75,27 @@ def load_file(filename):
         return 0
         
 #ф-ция, вывод альбомов в виде таблицы
-def show_album_spreadsheet(array):
-    print(tabulate(array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
+def show_album_spreadsheet(array, command):
+    if (command == "default"):
+        print(tabulate(array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
+    elif(command == "top"):
+        album_display = sorted(array,key=lambda x: (x[4]), reverse=True)
+        print(tabulate(album_display, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
+    elif(command == "bottom"):
+        album_display = sorted(array,key=lambda x: (x[4]))
+        print(tabulate(album_display, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
+        
+def show_album_spreadsheet_by_year(array, year, command):
+    new_array = []
+    indexes = []
+    for i in range(len(array)):
+        if(array[i][3]==int(year)):
+            new_array.append(array[i])
+        
+    if(len(new_array) == 0):
+        print("Нет записей за этот год")
+    else:
+        print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
    
 #ф-ция, изменить имя файла
 def change_filename(new_filename):

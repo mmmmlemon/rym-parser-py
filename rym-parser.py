@@ -36,7 +36,20 @@ def main_func():
         elif command == "as":
             if(global_album_list != 0):
                 clear()
-                show_album_spreadsheet(global_album_list)
+                show_album_spreadsheet(global_album_list, "default")
+        elif command == "as-top":
+            if(global_album_list != 0):
+                clear()
+                show_album_spreadsheet(global_album_list, "top")
+        elif command == "as-bottom":
+            if(global_album_list != 0):
+                clear()
+                show_album_spreadsheet(global_album_list, "bottom")
+        elif command == "as-year":
+            year = input("Введите год: ")
+            if(global_album_list != 0):
+                clear()
+                show_album_spreadsheet_by_year(global_album_list, year, "default")
         #change filename
         elif command == "chf":
             clear()
