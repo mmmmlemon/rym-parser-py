@@ -78,6 +78,32 @@ def basic_stats(array):
             all_decades_names.append(str(current_dec) + "0")
 
 
+    #НАХОДИМ ГОД С НАИБОЛЬШИМ КОЛ-ВОМ ЗАПИСЕЙ
+    all_years = []
+    all_years_nodupes = []
+    
+    for i in range(len(array)):
+        all_years.append(array[i][3])
+    
+    all_years_dict = dict.fromkeys(sorted(all_years))
+    all_years_nodupes = list(all_years_dict)
+    
+    for y in range(len(all_years_nodupes)):
+        current_year = all_years_nodupes[y]
+        count = 0
+        for i in range(len(all_years)):
+            if(current_year == all_years[i]):
+                count += 1
+        all_years_dict[current_year] = count
+
+    max_year = max(all_years_dict, key=all_years_dict.get)
+    max_year_count = all_years_dict[max_year]
+
+
+                
+    #год с наибольшим кол-вом записей
+    print("Год с наибольшим кол-вом записей: {}-й ({} шт.)".format(str(max_year), str(max_year_count)))
+
     #рисуем графики по полученным данным
     #график по оценкам
     print("\nОбщее количество оценок")
