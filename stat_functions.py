@@ -97,11 +97,39 @@ def basic_stats(array):
 
     max_year = max(all_years_dict, key=all_years_dict.get)
     max_year_count = all_years_dict[max_year]
+    
+    
+    #НАХОДИМ ГОД С НАИВЫСШИМ РЕЙТИНГОМ (если записей 5 и более)
+    all_rating_dict = dict.fromkeys(all_years_nodupes)
+    
+    for y in range(len(all_years_nodupes)):
+        current_year = all_years_nodupes[y]
+        count = 0
+        score = 0
+        for i in range(len(array)):
+            if(current_year==array[i][3]):
+                count += 1
+                score += int(array[i][4])
+        
+        if(count >= 5):
+            all_rating_dict[current_year] = score/count
+        else:
+            del all_rating_dict[current_year]
 
-
+    max_rating = max(all_rating_dict, key=all_rating_dict.get)
+    max_rating_score = all_rating_dict[max_rating]
+    
+    min_rating = min(all_rating_dict, key=all_rating_dict.get)
+    min_rating_score = all_rating_dict[min_rating]
                 
     #год с наибольшим кол-вом записей
     print("Год с наибольшим кол-вом записей: {}-й ({} шт.)".format(str(max_year), str(max_year_count)))
+    
+    #год с наивысшим ср. рейтингом 
+    print("Год с наивысшим ср. рейтингом: {}-й ({})".format(str(max_rating), str(max_rating_score) + "/10"))
+    
+    #год с наименьшим ср. рейтингом 
+    print("Год с наименьшим ср. рейтингом: {}-й ({})".format(str(min_rating), str(min_rating_score) + "/10"))
 
     #рисуем графики по полученным данным
     #график по оценкам
