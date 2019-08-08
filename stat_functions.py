@@ -27,7 +27,7 @@ def basic_stats(array):
     #считаем среднюю оценку
     avg_total = 0
     for i in range (albums_total_count):
-        avg_total += int(array[i][4])
+        avg_total += array[i][4]
     avg_total = avg_total / albums_total_count
     avg_total = math.ceil(avg_total*10)/10
     print("Средняя оценка: " + str(avg_total) + " / 10")
@@ -40,7 +40,7 @@ def basic_stats(array):
     for score in range (1, 11):
         count = 0
         for i in range (len(array)):
-            if array[i][4] == str(score):
+            if array[i][4] == score:
                 count+=1
         all_scores_list.append(count)
         all_scores_names.append(score)
@@ -53,7 +53,7 @@ def basic_stats(array):
     #создаем список со всеми годами, делим год на 10 и окгругляем вниз, т.о получаем список декад
     all_years_divided = []
     for i in range(len(array)):
-        num = int(array[i][3])
+        num = array[i][3]
         all_years_divided.append(math.floor(num / 10))
     
     #сортируем список декад по возрастанию
