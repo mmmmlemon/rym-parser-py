@@ -1,5 +1,4 @@
 import math
-import plotly.graph_objects as go
 
 #глобальные переменные
 graph_symb = "■"
