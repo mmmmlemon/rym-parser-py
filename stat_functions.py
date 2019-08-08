@@ -3,16 +3,9 @@ import plotly.graph_objects as go
 
 #глобальные переменные
 graph_symb = "■"
-#цвета для оценок
-score_colors = ['#820707', '#ff0000', '#ff8800', '#ffcc00', '#f6ff00', '#d4ff00', '#80ff00', '#22e32c', '#13bd46', '#00ffc3']
-#всплывающие заголовки для оценок
-score_hovertext = ['/10 - Неистовое убожество', '2/10 - Полный хлам',
-'3/10 - Позор', '4/10 - Плохо', '5/10 - Посредственно', '6/10 - Нормально', '7/10 - Хорошо',
-'8/10 - Отлично', '9/10 - Замечательно', '10/10 - Любимчик']
 
 #всякие глобальные функции
-#нарисовать график по массиву с данными
-
+#нарисовать график по массивам с данными
 def draw_graph(array_data, array_names):
     for i in range(len(array_data)):
         num = array_data[i]
@@ -40,6 +33,7 @@ def basic_stats(array):
     avg_total = math.ceil(avg_total*10)/10
     print("Средняя оценка: " + str(avg_total) + " / 10")
 
+    #ОБЩЕЕ КОЛИЧЕСТВО ОЦЕНОК
     #количество всех оценок
     all_scores_list = []
     all_scores_names = []
@@ -52,7 +46,8 @@ def basic_stats(array):
         all_scores_list.append(count)
         all_scores_names.append(score)
         
-    #количество прослушанных альбомов по десятилетиям
+    
+    #КОЛИЧЕСТВО ЗАПИСЕЙ ПО ДЕКАДАМ
     all_decades_count = []
     all_decades_names = []
     
@@ -61,11 +56,13 @@ def basic_stats(array):
     for i in range(len(array)):
         num = int(array[i][3])
         all_years_divided.append(math.floor(num / 10))
-        
-    all_years_divided = sorted(all_years_divided)
     
+    #сортируем список декад по возрастанию
+    all_years_divided = sorted(all_years_divided)
+    #убираем дубликаты и получаем итоговый список декад, при помощи этого списка будем считать 
     all_decades = list(dict.fromkeys(all_years_divided))
     
+    #для каждого элемента в списке декад прогоняем цикл
     for d in range(len(all_decades)):
         current_dec = all_decades[d]
         count = 0
@@ -74,19 +71,18 @@ def basic_stats(array):
                 count += 1
         
         all_decades_count.append(count)
+        #если декада = 0, то год у записи неизвестен
         if(current_dec == 0):
             all_decades_names.append("Год неизвестен")
         else:
             all_decades_names.append(str(current_dec) + "0")
 
 
-    #количество прослушанных альбомов по годам
-    # TO - DO
-    
-    #рисуем графики
+    #рисуем графики по полученным данным
+    #график по оценкам
     print("\nОбщее количество оценок")
     draw_graph(all_scores_list, all_scores_names)
-    
+    #график по кол-ву альбомов по декадам
     print("\nКоличество записей по декадам")
     draw_graph(all_decades_count, all_decades_names)
 
