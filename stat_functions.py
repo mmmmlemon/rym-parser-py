@@ -112,17 +112,15 @@ def basic_stats(array):
                 score += int(array[i][4])
         
         if(count >= 5):
-            all_rating_dict[current_year] = score/count
+            all_rating_dict[current_year] = math.ceil((score/count) * 100) /100
         else:
             del all_rating_dict[current_year]
 
     max_rating = max(all_rating_dict, key=all_rating_dict.get)
     max_rating_score = all_rating_dict[max_rating]
-    max_rating_score = math.ceil(max_rating_score*10)/10
     
     min_rating = min(all_rating_dict, key=all_rating_dict.get)
     min_rating_score = all_rating_dict[min_rating]
-    min_rating_score = math.ceil(min_rating_score*10)/10
     
     #НАХОДИМ ДЕСЯТИЛЕТИЕ С ЛУЧШИМ РЕЙТИНГОМ
     max_decade_dict = dict.fromkeys(all_decades)
@@ -137,18 +135,16 @@ def basic_stats(array):
                 score += int(array[i][4])
         
         if(count >= 10):
-            max_decade_dict[current_decade] = score/count
+            max_decade_dict[current_decade] = math.ceil((score/count) * 100) /100
         else:
             del max_decade_dict[current_decade]
     
     
     max_decade_rating = max(max_decade_dict, key=max_decade_dict.get)
     max_decade_score = max_decade_dict[max_decade_rating]
-    max_decade_score = math.ceil(max_decade_score*10)/10
     
     min_decade_rating = min(max_decade_dict, key=max_decade_dict.get)
     min_decade_score = max_decade_dict[min_decade_rating]
-    min_decade_score = math.ceil(min_decade_score*10)/10
     
 
     #десятилетие с лучшим ср. рейтингом
@@ -174,6 +170,11 @@ def basic_stats(array):
     print("\nКоличество записей по декадам")
     draw_graph(all_decades_count, all_decades_names)
 
+    #ср. рейтинг у десятилетий
+    print("\nСредний рейтинг у десятилетий")
+    for i in max_decade_dict:
+        print("{}0 - ({}/10)".format(i, max_decade_dict[i]))
+    
 
 
 
