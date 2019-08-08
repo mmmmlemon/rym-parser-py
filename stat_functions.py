@@ -118,18 +118,53 @@ def basic_stats(array):
 
     max_rating = max(all_rating_dict, key=all_rating_dict.get)
     max_rating_score = all_rating_dict[max_rating]
+    max_rating_score = math.ceil(max_rating_score*10)/10
     
     min_rating = min(all_rating_dict, key=all_rating_dict.get)
     min_rating_score = all_rating_dict[min_rating]
+    min_rating_score = math.ceil(min_rating_score*10)/10
+    
+    #НАХОДИМ ДЕСЯТИЛЕТИЕ С ЛУЧШИМ РЕЙТИНГОМ
+    max_decade_dict = dict.fromkeys(all_decades)
+    
+    for d in range(len(all_decades)):
+        current_decade = all_decades[d]
+        count = 0
+        score = 0
+        for i in range(len(array)):
+            if(current_decade==math.floor(array[i][3]/10)):
+                count += 1
+                score += int(array[i][4])
+        
+        if(count >= 10):
+            max_decade_dict[current_decade] = score/count
+        else:
+            del max_decade_dict[current_decade]
+    
+    
+    max_decade_rating = max(max_decade_dict, key=max_decade_dict.get)
+    max_decade_score = max_decade_dict[max_decade_rating]
+    max_decade_score = math.ceil(max_decade_score*10)/10
+    
+    min_decade_rating = min(max_decade_dict, key=max_decade_dict.get)
+    min_decade_score = max_decade_dict[min_decade_rating]
+    min_decade_score = math.ceil(min_decade_score*10)/10
+    
+
+    #десятилетие с лучшим ср. рейтингом
+    print("Десятилетие с лучшим ср. рейтингом: {}0 ({}/10)".format(str(max_decade_rating), str(max_decade_score)))
+    
+    #десятилетие с худшим ср. рейтингом
+    print("Десятилетие с худшим ср. рейтингом: {}0 ({}/10)".format(str(min_decade_rating), str(min_decade_score)))
                 
     #год с наибольшим кол-вом записей
     print("Год с наибольшим кол-вом записей: {}-й ({} шт.)".format(str(max_year), str(max_year_count)))
     
     #год с наивысшим ср. рейтингом 
-    print("Год с наивысшим ср. рейтингом: {}-й ({})".format(str(max_rating), str(max_rating_score) + "/10"))
+    print("Год с лучшим ср. рейтингом: {}-й ({}/10)".format(str(max_rating), str(max_rating_score)))
     
     #год с наименьшим ср. рейтингом 
-    print("Год с наименьшим ср. рейтингом: {}-й ({})".format(str(min_rating), str(min_rating_score) + "/10"))
+    print("Год с худшим ср. рейтингом: {}-й ({}/10)".format(str(min_rating), str(min_rating_score)))
 
     #рисуем графики по полученным данным
     #график по оценкам
