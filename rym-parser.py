@@ -19,7 +19,7 @@ config.read("conf.ini")
 
 #главная ф-ция
 def main_func():
-    print("Rate Your Music Parser v 0.1")
+    print("Rate Your Music Parser v {}".format(config['BASIC']['dev_version']))
     print("Пишите комнады внизу")
     command = ""
     global global_album_list
