@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+# -*- coding: utf-8 -*-
 #импорт библиотеки для чтения с кодировками
 import io
 import os

@@ -53,23 +53,42 @@ def basic_stats(array):
         all_scores_names.append(score)
         
     #количество прослушанных альбомов по десятилетиям
-    all_decades_list = []
+    all_decades_count = []
     all_decades_names = []
     
-    #создаем список со всеми годами
+    #создаем список со всеми годами, делим год на 10 и окгругляем вниз, т.о получаем список декад
     all_years_divided = []
     for i in range(len(array)):
         num = int(array[i][3])
-        all_years_divided.append(num)
+        all_years_divided.append(math.floor(num / 10))
         
-    print(all_years_divided)
+    all_years_divided = sorted(all_years_divided)
     
+    all_decades = list(dict.fromkeys(all_years_divided))
+    
+    for d in range(len(all_decades)):
+        current_dec = all_decades[d]
+        count = 0
+        for i in range(len(all_years_divided)):
+            if(all_years_divided[i] == current_dec):
+                count += 1
+        
+        all_decades_count.append(count)
+        if(current_dec == 0):
+            all_decades_names.append("Год неизвестен")
+        else:
+            all_decades_names.append(str(current_dec) + "0")
+
+
     #количество прослушанных альбомов по годам
     # TO - DO
     
     #рисуем графики
     print("\nОбщее количество оценок")
     draw_graph(all_scores_list, all_scores_names)
+    
+    print("\nКоличество записей по декадам")
+    draw_graph(all_decades_count, all_decades_names)
 
 
 
