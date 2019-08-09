@@ -2,6 +2,7 @@
 import os
 import io
 import configparser
+import math
 from tabulate import tabulate
 from pathlib import Path
 
@@ -92,6 +93,15 @@ def show_album_spreadsheet_by_year(array, year, command):
         if(array[i][3]==int(year)):
             new_array.append(array[i])
         
+    scores_list = []
+    #считаем средний рейтинг
+    avg_score = 0
+    for i in range(len(new_array)):
+        avg_score += new_array[i][4]
+        scores_list.append(new_array[i][4])
+        
+    avg_score = math.ceil((avg_score/len(new_array)) * 100) /100
+    
     if(len(new_array) == 0):
         print("Нет записей за этот год")
     else:
@@ -100,6 +110,9 @@ def show_album_spreadsheet_by_year(array, year, command):
         elif(command=="top"):
             new_array = sorted(new_array, key=lambda x: (x[4]),reverse = True)
             
+        print("Средняя оценка за год: {}/10".format(avg_score))
+        print("Самая высокая оценка: {}".format(max(scores_list)))
+        print("Самая низкая оценка: {}".format(min(scores_list)))
         print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
    
 #ф-ция, изменить имя файла
