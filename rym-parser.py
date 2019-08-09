@@ -64,6 +64,10 @@ def main_func():
             artist_name = input("Введите имя исполнителя: ")
             clear()
             artist_basic_stat(global_album_list, artist_name, "top")
+        #top artists
+        elif command == "top-art":
+            clear()
+            top_artists(global_album_list)
         #change filename
         elif command == "chf":
             clear()

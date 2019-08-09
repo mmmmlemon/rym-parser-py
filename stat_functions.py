@@ -201,7 +201,31 @@ def artist_basic_stat(array, artist_name, command):
             new_array = sorted(new_array, key=lambda x: (x[4]), reverse=True)
             print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
     
+
+def top_artists(array):
+    artists_list = []
+    
+    for i in range(len(array)):
+        artists_list.append(array[i][1])
+    
+    artists_dict = dict.fromkeys(artists_list)
+    
+  
+    for i in range(len(artists_list)):
+        avg_score = 0
+        count = 0
+        current_name = array[i][1]
+        for j in range(len(array)):
+              if(array[j][1] == current_name):
+                  avg_score += array[j][4]
+                  count += 1
+        if(count >= 4):
+            avg_score = math.ceil((avg_score/count) * 100) /100
+            artists_dict[current_name] = avg_score
+   
+            
         
+    print(artists_dict)
     
     
     
