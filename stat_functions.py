@@ -1,4 +1,5 @@
 import math
+from tabulate import tabulate
 
 #глобальные переменные
 graph_symb = "■"
@@ -176,5 +177,31 @@ def basic_stats(array):
         print("{}0 - ({}/10)".format(i, max_decade_dict[i]))
     
 
-
-
+def artist_basic_stat(array, artist_name, command):
+    new_array = []
+    avg_score = 0
+    score_list = []
+    for i in range(len(array)):
+        if array[i][1].lower() == artist_name.lower():
+            new_array.append(array[i])
+            avg_score += array[i][4]
+            score_list.append(array[i][4])
+            
+    if(len(new_array) == 0):
+        print("Нет записей об этом исполнителе")
+    else:
+        avg_score = math.ceil((avg_score/len(new_array)) * 100) /100
+        print("Средняя оценка: {}/10".format(avg_score))
+        print("Самая высокая оценка: {}/10".format(max(score_list)))
+        print("Самая низкая оценка: {}/10".format(min(score_list)))
+        print("Всего записей: {}".format(len(new_array)))
+        if(command == "default"):
+            print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
+        elif(command == "top"):
+            new_array = sorted(new_array, key=lambda x: (x[4]), reverse=True)
+            print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
+    
+        
+    
+    
+    

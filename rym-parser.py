@@ -55,6 +55,15 @@ def main_func():
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet_by_year(global_album_list, year, "top")
+        #artist stats
+        elif command == "ars":
+            artist_name = input("Введите имя исполнителя: ")
+            clear()
+            artist_basic_stat(global_album_list, artist_name, "default")
+        elif command == "ars-top":
+            artist_name = input("Введите имя исполнителя: ")
+            clear()
+            artist_basic_stat(global_album_list, artist_name, "top")
         #change filename
         elif command == "chf":
             clear()
