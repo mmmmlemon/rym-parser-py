@@ -279,5 +279,44 @@ def top_artists_by_count(array):
             new_dict[max_art] = 0
             max_count += 1
     
+def top_years(array):
+    years_list = []
     
+    for i in range(len(array)):
+        years_list.append(str(array[i][3]))
+    
+    years_dict = dict.fromkeys(years_list)
+    count_dict = {}
+    
+    for i in range(len(years_list)):
+        avg_score = 0
+        count = 0
+        current_name = str(array[i][3])
+        for j in range(len(array)):
+              if(str(array[j][3]) == current_name):
+                  avg_score += array[j][4]
+                  count += 1
+        if(count >= 5):
+            avg_score = math.ceil((avg_score/count) * 100) /100
+            years_dict[current_name] = avg_score
+            count_dict[current_name] = count
+        else:
+            years_dict[current_name] = 0
+   
+    new_dict = {}
+    for k in years_dict.keys():
+        if years_dict[k]>0:
+            new_dict[k] = years_dict[k]
+    
+    max_count = 1
+    while(max_count != 0):
+        max_art = max(new_dict, key=new_dict.get)
+        max_score = new_dict[max_art]
+        
+        if(max_score == 0):
+            max_count = 0
+        else:
+            print("{}. {} - {} ({} шт.)".format(max_count,max_art, max_score, count_dict[max_art]))
+            new_dict[max_art] = 0
+            max_count += 1
     
