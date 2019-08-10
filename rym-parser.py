@@ -68,6 +68,10 @@ def main_func():
         elif command == "top-art":
             clear()
             top_artists(global_album_list)
+        #top artists
+        elif command == "top-art-count":
+            clear()
+            top_artists_by_count(global_album_list)
         #change filename
         elif command == "chf":
             clear()

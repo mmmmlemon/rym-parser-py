@@ -243,8 +243,43 @@ def top_artists(array):
             print("{}. {} - {} ({} шт.)".format(max_count,max_art, max_score, count_dict[max_art]))
             new_dict[max_art] = 0
             max_count += 1
+
+def top_artists_by_count(array):
+    artists_list = []
+    for i in range(len(array)):
+        artists_list.append(array[i][1])
     
+    artists_dict = dict.fromkeys(artists_list)
+    count_dict = {}
+  
+    for i in range(len(artists_list)):
+        count = 0
+        current_name = array[i][1]
+        for j in range(len(array)):
+              if(array[j][1] == current_name):
+                  count += 1
+        if(count >= 5):
+            artists_dict[current_name] = count
+        else:
+            artists_dict[current_name] = 0
+   
+    new_dict = {}
+    for k in artists_dict.keys():
+        if artists_dict[k]>0:
+            new_dict[k] = artists_dict[k]
+      
     
+    max_count = 1
+    while(max_count != 0):
+        max_art = max(new_dict, key=new_dict.get)
+        max_score = new_dict[max_art]
+        
+        if(max_score == 0):
+            max_count = 0
+        else:
+            print("{}. {} - {} шт.".format(max_count,max_art, max_score))
+            new_dict[max_art] = 0
+            max_count += 1
     
     
     
