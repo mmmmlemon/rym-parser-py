@@ -256,12 +256,10 @@ def top_artists_by_count(array):
         count = 0
         current_name = array[i][1]
         for j in range(len(array)):
-              if(array[j][1] == current_name):
-                  count += 1
-        if(count >= 5):
+            if(array[j][1] == current_name):
+                count += 1
             artists_dict[current_name] = count
-        else:
-            artists_dict[current_name] = 0
+
    
     new_dict = {}
     for k in artists_dict.keys():
