@@ -76,6 +76,10 @@ def main_func():
         elif command == "top-years":
             clear()
             top_years(global_album_list)
+        #top decades
+        elif command == "top-decades":
+            clear()
+            top_decades(global_album_list)
         #change filename
         elif command == "chf":
             clear()

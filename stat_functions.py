@@ -320,3 +320,55 @@ def top_years(array):
             new_dict[max_art] = 0
             max_count += 1
     
+def top_decades(array):
+    years_list = []
+    
+    for i in range(len(array)):
+        years_list.append(math.floor(array[i][3] / 10))
+    
+    decades_dict = dict.fromkeys(sorted(years_list))
+    
+    decades_list = [k for k  in decades_dict]
+    
+    count_dict = {}
+
+    for i in range(len(decades_list)):
+        
+        current_dec = decades_list[i]
+        avg_score = 0
+        count = 0
+        
+        for j in range(len(array)):
+            current_year_divided = math.floor(array[j][3] / 10)
+            if(current_dec == current_year_divided):
+              
+                avg_score += array[j][4]
+                count += 1
+              
+        if(count >= 30):
+            avg_score = math.ceil((avg_score/count) * 100) /100
+            decades_dict[current_dec] = avg_score
+            count_dict[current_dec] = count
+        else:
+            decades_dict[current_dec] = 0
+                
+    new_dict = {}
+    for k in decades_dict.keys():
+        if decades_dict[k]>0:
+            new_dict[k] = decades_dict[k]
+            
+    
+    max_count = 1
+    while(max_count != 0):
+        max_art = max(new_dict, key=new_dict.get)
+        max_score = new_dict[max_art]
+        
+        if(max_score == 0):
+            max_count = 0
+        else:
+            print("{}. {}0 - {} ({} шт.)".format(max_count,max_art, max_score, count_dict[max_art]))
+            new_dict[max_art] = 0
+            max_count += 1
+    
+    
+    
