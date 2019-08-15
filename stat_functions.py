@@ -1,5 +1,6 @@
 import math
 from tabulate import tabulate
+import configparser
 
 #глобальные переменные
 graph_symb = "■"
@@ -203,6 +204,11 @@ def artist_basic_stat(array, artist_name, command):
     
 
 def top_artists(array):
+    config = configparser.ConfigParser()
+    config.read("conf.ini")
+
+    top_art_amount = int(config['TOPS']['top-art'])
+
     artists_list = []
     
     for i in range(len(array)):
@@ -219,7 +225,7 @@ def top_artists(array):
               if(array[j][1] == current_name):
                   avg_score += array[j][4]
                   count += 1
-        if(count >= 5):
+        if(count >= top_art_amount):
             avg_score = math.ceil((avg_score/count) * 100) /100
             artists_dict[current_name] = avg_score
             count_dict[current_name] = count
@@ -280,6 +286,11 @@ def top_artists_by_count(array):
             max_count += 1
     
 def top_years(array):
+    config = configparser.ConfigParser()
+    config.read("conf.ini")
+
+    amount = int(config['TOPS']['top-years'])
+    
     years_list = []
     
     for i in range(len(array)):
@@ -296,7 +307,7 @@ def top_years(array):
               if(str(array[j][3]) == current_name):
                   avg_score += array[j][4]
                   count += 1
-        if(count >= 5):
+        if(count >= amount):
             avg_score = math.ceil((avg_score/count) * 100) /100
             years_dict[current_name] = avg_score
             count_dict[current_name] = count
@@ -321,6 +332,11 @@ def top_years(array):
             max_count += 1
     
 def top_decades(array):
+    config = configparser.ConfigParser()
+    config.read("conf.ini")
+
+    amount = int(config['TOPS']['top-decades'])
+    
     years_list = []
     
     for i in range(len(array)):
@@ -345,7 +361,7 @@ def top_decades(array):
                 avg_score += array[j][4]
                 count += 1
               
-        if(count >= 30):
+        if(count >= amount):
             avg_score = math.ceil((avg_score/count) * 100) /100
             decades_dict[current_dec] = avg_score
             count_dict[current_dec] = count
@@ -370,5 +386,6 @@ def top_decades(array):
             new_dict[max_art] = 0
             max_count += 1
     
+
     
     

@@ -89,6 +89,18 @@ def main_func():
                 global_filename = change_filename(filename)
                 global_album_list = load_file(global_filename)
                 print ("Файл был изменен!")
+        #change amount of albums for top-art
+        elif command == "set-top-art":
+            amount = input("Новое кол-во альбомов: ")
+            set_amount_for_top_art(amount)
+        #change amount of albums for top-art
+        elif command == "set-top-years":
+            amount = input("Новое кол-во альбомов: ")
+            set_amount_for_top_years(amount)
+        #change amount of albums for top-art
+        elif command == "set-top-decades":
+            amount = input("Новое кол-во альбомов: ")
+            set_amount_for_top_decades(amount)
         #help
         elif command == "help":
             clear()

@@ -130,6 +130,33 @@ def change_filename(new_filename):
         print("Нет такого файла")
         return 0
 
+#ф-ция, изменить кол-во альбомов для топа исполнителей
+def set_amount_for_top_art(amount):
+     config = configparser.ConfigParser()
+     config.read("conf.ini")
+     config['TOPS']['top-art'] = amount
+     with open('conf.ini', 'w') as configfile:
+            config.write(configfile)
+     print("Количество альбомов для top-art было изменено на {}".format(amount))
+     
+#ф-ция, изменить кол-во альбомов для топа исполнителей
+def set_amount_for_top_years(amount):
+     config = configparser.ConfigParser()
+     config.read("conf.ini")
+     config['TOPS']['top-years'] = amount
+     with open('conf.ini', 'w') as configfile:
+            config.write(configfile)
+     print("Количество альбомов для top-years было изменено на {}".format(amount))
+     
+#ф-ция, изменить кол-во альбомов для топа десятилетий
+def set_amount_for_top_decades(amount):
+     config = configparser.ConfigParser()
+     config.read("conf.ini")
+     config['TOPS']['top-decades'] = amount
+     with open('conf.ini', 'w') as configfile:
+            config.write(configfile)
+     print("Количество альбомов для top-decades изменено на {}".format(amount))
+
 #ф-ция, справка по командам
 def help():
     print("bs - Общая статистика")
@@ -141,6 +168,7 @@ def help():
     print ("\nars - Общая статисткиа по исполнителю")
     print ("ars-top - Общая статисткиа по исполнителю с топом альбомов")
     print ("\ntop-art - Топ исполнителей по рейтингу")
+    print("\ntop-art-count - Топ исполнителей по кол-ву записей")
     print ("top-years - Топ годов по рейтингу")
     print ("top-decades - Топ десятилетий по рейтингу")
     print ("\nchf - Изменить имя файла с данными")
