@@ -1,6 +1,7 @@
 #содержит базовые функции программы
 import os
 import io
+import csv
 import configparser
 import math
 from tabulate import tabulate
@@ -26,6 +27,14 @@ def load_file(filename):
         #общий массив для всех альбомов
         album_array = []
 
+
+        artists_csv_dict = {}
+
+        with open('artists.txt', mode='r') as csv_file:
+            reader = csv.reader(csv_file)
+            artists_csv_dict = dict(reader)
+        
+        
         #начинаем цикл, ходим по строкам и записываем данные в общий массив
         for i in range (1, num_of_lines):
             #массив для текущего альбома в цикле
@@ -156,6 +165,10 @@ def set_amount_for_top_decades(amount):
      with open('conf.ini', 'w') as configfile:
             config.write(configfile)
      print("Количество альбомов для top-decades изменено на {}".format(amount))
+
+#ф-ция, добавить имя в список имен для замены - исполнители
+#def add_artist_for_replace(old_name, new_name):
+    
 
 #ф-ция, справка по командам
 def help():

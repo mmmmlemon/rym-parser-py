@@ -1,0 +1,3 @@
+"Old_name", "New_name"
+"Sonic-Youth", "Sonic Youth"
+"Bowie", "David Bowie"

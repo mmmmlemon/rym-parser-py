@@ -3,6 +3,8 @@
 #импорт библиотеки для чтения с кодировками
 import io
 import os
+#жейсон
+import json
 #импорт бибилиотеки для рисования таблиц
 from tabulate import tabulate
 #бибилотека для чтения конфигов
@@ -119,6 +121,7 @@ global_filename = config['BASIC']['file']
 global_album_list = load_file(global_filename)
 
 #clear()
+
 
 #запускаем главную ф-цию
 main_func()
