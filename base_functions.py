@@ -4,6 +4,7 @@ import io
 import csv
 import configparser
 import math
+import html
 from tabulate import tabulate
 from pathlib import Path
 
@@ -30,7 +31,7 @@ def load_file(filename):
 
         artists_csv_dict = {}
 
-        with open('artists.txt', mode='r') as csv_file:
+        with open('artists.txt', mode='r', encoding='utf-8') as csv_file:
             reader = csv.reader(csv_file)
             artists_csv_dict = dict(reader)
         
@@ -79,14 +80,19 @@ def load_file(filename):
             del album_display[i][2]
             del album_display[i][2]
             
-        #заменяем имена исполнителей, там где нужно
+        #заменяем имена исполнителей, там где нужно и убираем html символы
         for i in range(len(album_display)):
             current_name = album_display[i][1]
+            unescaped_current_name = html.unescape(current_name)
             
-            if(current_name in artists_csv_dict):
-                album_display[i][1] = artists_csv_dict[current_name]
-                album_display[i][1] = album_display[i][1].strip()
-
+            if(unescaped_current_name in artists_csv_dict):
+                album_display[i][1] = artists_csv_dict[unescaped_current_name]
+                album_display[i][1] = album_display[i][1].strip().replace("\"","")
+            
+            #убираем html символы    
+            album_display[i][1] = html.unescape(album_display[i][1])
+            album_display[i][2] = html.unescape(album_display[i][2])
+        
         #сортировка списка по алфавиту и году выпуска альбома
         album_display = sorted(album_display,key=lambda x: (x[1].lower(),x[3]))
 
@@ -179,8 +185,8 @@ def set_amount_for_top_decades(amount):
 
 #ф-ция, добавить имя в список имен для замены - исполнители
 def add_artist_for_replace(old_name, new_name):
-    with open('artists.txt','a') as fd:
-        fd.write("\n{},{}".format(old_name, new_name))
+    with open('artists.txt','a', encoding='utf-8') as fd:
+        fd.write("\n\"{}\",\"{}\"".format(old_name, new_name))
     
     print("Запись добавлена!")
 

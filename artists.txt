@@ -1,6 +1,11 @@
 Old_name, New_name
-Sonic-Youth, Sonic Youth
-Bowie, David Bowie
-Êèíî [Kino],Êèíî
-Iggy and The Stooges,The Stooges
-ÀóêöÛîí [Auktyon],ÀóêöÛîí
+"Sonic-Youth", "Sonic Youth"
+"ĞšĞ¸Ğ½Ğ¾ [Kino]","ĞšĞ¸Ğ½Ğ¾"
+"ABBA (BjÃ¶rn, Benny, Agnetha & Frida)","ABBA"
+"Bowie","David Bowie"
+"Captain Beefheart & His Magic Band","Captain Beefheart and His Magic Band"
+"Caustic Window","Aphex Twin"
+"Iggy and The Stooges","The Stooges"
+"The Beatles / George Martin","The Beatles"
+"The Pink Floyd","Pink Floyd"
+"ĞÑƒĞºÑ†Ğ«Ğ¾Ğ½ [Auktyon]","ĞÑƒĞºÑ†Ğ«Ğ¾Ğ½"
