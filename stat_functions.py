@@ -115,7 +115,7 @@ def basic_stats(array):
         config = configparser.ConfigParser()
         config.read("conf.ini")
 
-        amount = int(config['TOPS']['top-year'])
+        amount = int(config['TOPS']['top-years'])
         
         if(count >= amount):
             all_rating_dict[current_year] = math.ceil((score/count) * 100) /100
@@ -167,13 +167,13 @@ def basic_stats(array):
     print("Decade with worst avg score: {}0 ({}/10)".format(str(min_decade_rating), str(min_decade_score)))
                 
     #Year with biggest num of albums
-    print("Year with biggest count of albums: {}-й ({} шт.)".format(str(max_year), str(max_year_count)))
+    print("Year with biggest count of albums: {} ({} albums)".format(str(max_year), str(max_year_count)))
     
     #year with best avg score
-    print("Year with best avg score: {}-й ({}/10)".format(str(max_rating), str(max_rating_score)))
+    print("Year with best avg score: {} ({}/10)".format(str(max_rating), str(max_rating_score)))
     
     #year with worst avg score
-    print("Year with worst avg score: {}-й ({}/10)".format(str(min_rating), str(min_rating_score)))
+    print("Year with worst avg score: {} ({}/10)".format(str(min_rating), str(min_rating_score)))
 
     #draw graphs
     #ratings graph
