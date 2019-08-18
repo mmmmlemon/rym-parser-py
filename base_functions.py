@@ -34,6 +34,9 @@ def load_file(filename):
             reader = csv.reader(csv_file)
             artists_csv_dict = dict(reader)
         
+        #убираем пробелы в начале и в конце (откуда они вообще берутся???)
+        for a in artists_csv_dict.values():
+            a = a.strip()
         
         #начинаем цикл, ходим по строкам и записываем данные в общий массив
         for i in range (1, num_of_lines):
@@ -75,6 +78,14 @@ def load_file(filename):
             del album_display[i][2]
             del album_display[i][2]
             del album_display[i][2]
+            
+        #заменяем имена исполнителей, там где нужно
+        for i in range(len(album_display)):
+            current_name = album_display[i][1]
+            
+            if(current_name in artists_csv_dict):
+                album_display[i][1] = artists_csv_dict[current_name]
+                album_display[i][1] = album_display[i][1].strip()
 
         #сортировка списка по алфавиту и году выпуска альбома
         album_display = sorted(album_display,key=lambda x: (x[1].lower(),x[3]))
