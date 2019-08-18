@@ -1,4 +1,5 @@
-#содержит базовые функции программы
+#contains the basic functions of the program, like loading the data file, changing the data file name etc.
+
 import os
 import io
 import csv
@@ -8,100 +9,118 @@ import html
 from tabulate import tabulate
 from pathlib import Path
 
-#ф-ция, загрузить файл и преобразовать его в массив для последующей работы
+#load the data from the data file
 def load_file(filename):
+    #check if data file exists
     if(os.path.isfile("./"+filename)):
-        #открываем файл и читаем его содержимое
+        #open the file and read it
         file = io.open(filename, "r", encoding='utf8')
 
-        #сохраняем содержимое файла в переменной строки
+        #saving the contents of file in file_string var
         file_string = file.read()
 
-        #считаем количество строк в тексте
+        #count the number of strings in the data file
         num_of_lines = 0
         with io.open(filename, "r", encoding='utf8') as f:
             num_of_lines = sum(1 for _ in f)
 
-        #ищем индекс начала слова Review, принимаем его за начальный, с него начинаем читать файл
+        #first we find the "Review" word index, take it as a start position, and read the rest of the file from here
         index_start = file_string.find("Review")
 
-        #общий массив для всех альбомов
+        #a list of LISTS for all the albums
+        #each index is a list inside of a "album_array" list, that has all the info about the album
         album_array = []
 
-
+        #a dictionary for artists name replacements 
         artists_csv_dict = {}
-
+        
+        #loading the name replacements
         with open('artists.txt', mode='r', encoding='utf-8') as csv_file:
             reader = csv.reader(csv_file)
             artists_csv_dict = dict(reader)
         
-        #убираем пробелы в начале и в конце (откуда они вообще берутся???)
+        #trim spaces in replacements (wtf where they even come from???)
         for a in artists_csv_dict.values():
             a = a.strip()
         
-        #начинаем цикл, ходим по строкам и записываем данные в общий массив
+        #a hell lot of shitcoding down here
+        
+        #yeah boii lets start a loop
+        #takes all the data about all the albums and add it into the "album_array" list
         for i in range (1, num_of_lines):
-            #массив для текущего альбома в цикле
+            #a list for the current album 
             current_album = []
 
-            #в каждой строке 12 параметров, вытаскиваем их все
+            #each string of data has 12 params, hence we do a 12 iterations
             for a in range (0, 12):
-                #определяем начало и конец кажого параметра при помощи кавычек
-                #кавычка в начале
+                #find the indexes of first and last quot mark to get the data between them
+                #first quot mark 
                 idx_firstQ = file_string.find('\"', index_start) + 1
-                #кавычка в конце
+                #last quot mark
                 idx_lastQ = file_string.find('\"', idx_firstQ)
-                #получаем подстроку при помощи индексов кавычек
+                #get the data between them, with indexes
                 txt = file_string[idx_firstQ:idx_lastQ]
+                
+                #if the data is not empty, and also if it's not one of these parameters, then we append it to the "current_album" list
                 if txt != "" and a != 10 and a != 8 or a == 6 or a == 1 or a == 2 or a == 3 or a == 4:
+                    #i dont fukn remember what this is, but it does smth important
                     if a == 6 or a == 7:
                         if txt == "":
                             txt = "0"
                         txt = int(txt)
+                    
                     current_album.append(txt)
                 
                 index_start = file_string.find(",",idx_lastQ)
 
-            #когда получили все параметры, находим переход на новую строку и делаем его новой стартовой позицией
+            #when we got all the data about the album, find the "\n" and take it as the new starting position
             idx_nl = file_string.find('\n',idx_lastQ)
             index_start = idx_nl
             album_array.append(current_album)
 
-        #создаем новую переменную для форматирования и вывода, копируем в неё данные из старой
+        #new list of albums, that will me formatted and edited for further use
         album_display = album_array
 
-        #объединяем наименования исполниелей
+        #merges artist first name and second name together (like "The" + "Beatles" = "The Beatles")
         for i in range(len(album_display)):
+            #in case the artists does not have the first name, we will merge it with the empty character
             space_char = ""
+            #in case the artist does have the first name, we will merge it with space character
             if album_display[i][1] != "":
                 space_char = " "
             album_display[i][1] += space_char + album_display[i][2]
+            #some unnecessary data about artist names that we don't need
+            #2 index is used three times because every time you delete data all the indexes shift
             del album_display[i][2]
             del album_display[i][2]
             del album_display[i][2]
             
-        #заменяем имена исполнителей, там где нужно и убираем html символы
+        #replaces artists names where necessary (like replace "Bowie" with "David Bowie")
+        #also, removes HTML characters that appear in some places
         for i in range(len(album_display)):
             current_name = album_display[i][1]
             unescaped_current_name = html.unescape(current_name)
             
+            #replaces name
             if(unescaped_current_name in artists_csv_dict):
                 album_display[i][1] = artists_csv_dict[unescaped_current_name]
                 album_display[i][1] = album_display[i][1].strip().replace("\"","")
             
-            #убираем html символы    
+            #removes HTML chars
             album_display[i][1] = html.unescape(album_display[i][1])
             album_display[i][2] = html.unescape(album_display[i][2])
         
-        #сортировка списка по алфавиту и году выпуска альбома
+        #sort by artist name, then by release year
         album_display = sorted(album_display,key=lambda x: (x[1].lower(),x[3]))
-
+        
+        #return the list of albums for further use
         return album_display
     else:
-        print("Файл не существует")
+        #if data file doesn't exit
+        print("Data file doesn't exist")
         return 0
         
-#ф-ция, вывод альбомов в виде таблицы
+#shows all the albums in a form of spreadsheet
 def show_album_spreadsheet(array, command):
     if (command == "default"):
         print(tabulate(array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
@@ -111,7 +130,8 @@ def show_album_spreadsheet(array, command):
     elif(command == "bottom"):
         album_display = sorted(array,key=lambda x: (x[4]))
         print(tabulate(album_display, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
-        
+       
+#show all the albums in a certain year in a form of a spreadsheet
 def show_album_spreadsheet_by_year(array, year, command):
     new_array = []
     indexes = []
@@ -120,7 +140,7 @@ def show_album_spreadsheet_by_year(array, year, command):
             new_array.append(array[i])
         
     scores_list = []
-    #считаем средний рейтинг
+    #calculate avg rating
     avg_score = 0
     for i in range(len(new_array)):
         avg_score += new_array[i][4]
@@ -141,68 +161,73 @@ def show_album_spreadsheet_by_year(array, year, command):
         print("Самая низкая оценка: {}".format(min(scores_list)))
         print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
    
-#ф-ция, изменить имя файла
+#change the data file name
 def change_filename(new_filename):
     my_file = Path("./"+new_filename)
     if my_file.is_file():
         source_filename = new_filename
         config = configparser.ConfigParser()
         config.read("conf.ini")
-        config['BASIC'] = {'file': new_filename}
+        config['BASIC']['file'] = new_filename
         with open('conf.ini', 'w') as configfile:
             config.write(configfile)
         return new_filename
     else:
-        print("Нет такого файла")
+        print("No such file")
         return 0
 
-#ф-ция, изменить кол-во альбомов для топа исполнителей
+#change the amount of albums to check for top of artists
 def set_amount_for_top_art(amount):
      config = configparser.ConfigParser()
      config.read("conf.ini")
      config['TOPS']['top-art'] = amount
      with open('conf.ini', 'w') as configfile:
             config.write(configfile)
-     print("Количество альбомов для top-art было изменено на {}".format(amount))
+     print("The amount for top-art was changed to {}".format(amount))
      
-#ф-ция, изменить кол-во альбомов для топа исполнителей
+#change the amount of albums to check for top of years
 def set_amount_for_top_years(amount):
      config = configparser.ConfigParser()
      config.read("conf.ini")
      config['TOPS']['top-years'] = amount
      with open('conf.ini', 'w') as configfile:
             config.write(configfile)
-     print("Количество альбомов для top-years было изменено на {}".format(amount))
+     print("The amount for top-years was changed to {}".format(amount))
      
-#ф-ция, изменить кол-во альбомов для топа десятилетий
+#change the amount of albums to check for top of decades
 def set_amount_for_top_decades(amount):
      config = configparser.ConfigParser()
      config.read("conf.ini")
      config['TOPS']['top-decades'] = amount
      with open('conf.ini', 'w') as configfile:
             config.write(configfile)
-     print("Количество альбомов для top-decades изменено на {}".format(amount))
+     print("The amount for top-decades as chnaged to {}".format(amount))
 
-#ф-ция, добавить имя в список имен для замены - исполнители
+#add name of artists for replacement
 def add_artist_for_replace(old_name, new_name):
     with open('artists.txt','a', encoding='utf-8') as fd:
         fd.write("\n\"{}\",\"{}\"".format(old_name, new_name))
     
-    print("Запись добавлена!")
+    print("New name has been added!")
 
 #ф-ция, справка по командам
 def help():
-    print("bs - Общая статистика")
-    print ("\nas - Список всех альбомов")
-    print ("as-top - Список всех альбомов (от высоких оценок к низким)")
-    print ("as-bottom - Список всех альбомов (от низких оценок к высоким)")
-    print ("as-year - Список альбомов за выбранный год")
-    print ("as-year-top - Топ альбомов за выбранный год")
-    print ("\nars - Общая статисткиа по исполнителю")
-    print ("ars-top - Общая статисткиа по исполнителю с топом альбомов")
-    print ("\ntop-art - Топ исполнителей по рейтингу")
-    print("\ntop-art-count - Топ исполнителей по кол-ву записей")
-    print ("top-years - Топ годов по рейтингу")
-    print ("top-decades - Топ десятилетий по рейтингу")
-    print ("\nchf - Изменить имя файла с данными")
+    print("bs - Basic statistics")
+    print ("\nas - List of all albums")
+    print ("as-top - List of all albums (best to worst)")
+    print ("as-bottom - List of all albums (worst to best)")
+    print ("as-year - List of all albums of a certain year")
+    print ("as-year-top - List of all albums of a certain year (best to worst)")
+    print ("\nars - Basic statistic on artist")
+    print ("ars-top - Same as above, but the albums are best to worst")
+    print ("\ntop-art - The Top of Artists by avg. rating")
+    print("top-art-count - The Top of Artists by Number of Albums")
+    print ("top-years - The Top of Years by avg. rating")
+    print ("top-decades - The Top of Decades by avg. rating")
+    print ("\nchf - Change the data file name")
+    print("set-top-art - Change the amount of albums to check for The Top of Artists")
+    print("set-top-years - Change the amount of albums to check for The Top of Years")
+    print("set-top-decades - Change the amount of albums to check for The Top of Decades")
+    print("add-art-replace - Add artist name for replacement")
+    print("\nexit - Exit the program")
 

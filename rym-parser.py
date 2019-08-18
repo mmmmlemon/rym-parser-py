@@ -1,16 +1,13 @@
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
-#импорт библиотеки для чтения с кодировками
 import io
 import os
-#жейсон
-import json
-#импорт бибилиотеки для рисования таблиц
+#lib for table rendering
 from tabulate import tabulate
-#бибилотека для чтения конфигов
+#lib for .ini file
 import configparser
 
-#импортируем свои файлы
+#import all from base_func and stat_func files
 from base_functions import *
 from stat_functions import *
 
@@ -19,10 +16,11 @@ config = configparser.ConfigParser()
 config.read("conf.ini")
 
 
-#главная ф-ция
+#main function
+#it contains all commands a user can use in this programm
 def main_func():
     print("Rate Your Music Parser v {}".format(config['BASIC']['dev_version']))
-    print("Пишите комнады внизу")
+    print("Enter the commands below")
     command = ""
     global global_album_list
     global global_filename
@@ -39,74 +37,79 @@ def main_func():
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet(global_album_list, "default")
+        #albums spreadsheet (best to worst)
         elif command == "as-top":
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet(global_album_list, "top")
+        #albums spreadsheet (worst to best)
         elif command == "as-bottom":
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet(global_album_list, "bottom")
+        #albums spreadsheet for a certain year
         elif command == "as-year":
-            year = input("Введите год: ")
+            year = input("Input year: ")
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet_by_year(global_album_list, year, "default")
+        #albums spreadsheet for a certain year (best to worst)
         elif command == "as-year-top":
-            year = input("Введите год: ")
+            year = input("Input year: ")
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet_by_year(global_album_list, year, "top")
         #artist stats
         elif command == "ars":
-            artist_name = input("Введите имя исполнителя: ")
+            artist_name = input("Input artist name: ")
             clear()
             artist_basic_stat(global_album_list, artist_name, "default")
+        #artist stats with albums best to worst
         elif command == "ars-top":
-            artist_name = input("Введите имя исполнителя: ")
+            artist_name = input("Input artist name: ")
             clear()
             artist_basic_stat(global_album_list, artist_name, "top")
-        #top artists
+        #top artists by avg. rating
         elif command == "top-art":
             clear()
             top_artists(global_album_list)
-        #top artists by count
+        #top artists by number of ratings
         elif command == "top-art-count":
             clear()
             top_artists_by_count(global_album_list)
-        #top artists by count
+        #top years by avg. rating
         elif command == "top-years":
             clear()
             top_years(global_album_list)
-        #top decades
+        #top decades by avg. rating
         elif command == "top-decades":
             clear()
             top_decades(global_album_list)
-        #change filename
+        #change filename with RYM data
         elif command == "chf":
             clear()
-            print("New file name: ")
+            print("New file name (with extension): ")
             filename = input()
             if(change_filename(filename) != 0):
                 global_filename = change_filename(filename)
                 global_album_list = load_file(global_filename)
-                print ("Файл был изменен!")
+                print ("File has been changed! ({})".format(filename))
         #change amount of albums for top-art
         elif command == "set-top-art":
-            amount = input("Новое кол-во альбомов: ")
+            amount = input("New amount of albums to check: ")
             set_amount_for_top_art(amount)
         #change amount of albums for top-art
         elif command == "set-top-years":
-            amount = input("Новое кол-во альбомов: ")
+            amount = input("New amount of albums to check: ")
             set_amount_for_top_years(amount)
         #change amount of albums for top-art
         elif command == "set-top-decades":
-            amount = input("Новое кол-во альбомов: ")
+            amount = input("New amount of albums to check: ")
             set_amount_for_top_decades(amount)
         #add new artist name replacement
         elif command == "add-art-replace":
-            old_name = input("Введите старое имя: ")
-            new_name = input("Введите новое имя: ")
+            old_name = input("Enter the name that should be replaced: ")
+            new_name = input("Enter the new name: ")
             add_artist_for_replace(old_name, new_name)
             global_album_list = load_file(global_filename)
         #help
@@ -116,20 +119,16 @@ def main_func():
         #exit the program
         elif command == "exit":
             break
-        elif command == "g":
-            clear()
-
         else:
-            print("Нет такой команды")
+            print("No such command")
 
 global_filename = config['BASIC']['file']
 
 global_album_list = load_file(global_filename)
 
-#clear()
+clear()
 
-
-#запускаем главную ф-цию
+#start the main function
 main_func()
 
 

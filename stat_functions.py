@@ -1,41 +1,40 @@
+#everything about stats
+
 import math
 from tabulate import tabulate
 import configparser
 
-#глобальные переменные
 graph_symb = "■"
 
-#всякие глобальные функции
-#нарисовать график по массивам с данными
+#some global functions n shit
+#draw graph (data and labels for data)
 def draw_graph(array_data, array_names):
     for i in range(len(array_data)):
         num = array_data[i]
         num_round = math.ceil(num / 2)
-        #print(num_round)
         scores_line = graph_symb
         for ii in range(int(num_round)):
             scores_line += graph_symb
         scores_line += " - " + str(array_data[i]) + "({})".format(array_names[i])
         print(scores_line)
 
-#ф-ция, базовая статистика
+#BASIC STATS
 def basic_stats(array):
-    #подисчитываем статистику
-    #всего альбомов
-    print ("Общая статистика")
+    #calculate everything
+    #total num of albums
+    print ("Basic statistics")
     albums_total_count = len(array)
-    print("Всего альбомов: " + str(albums_total_count) + " шт.")
+    print("Albums total: " + str(albums_total_count))
 
-    #считаем среднюю оценку
+    #calculate average score
     avg_total = 0
     for i in range (albums_total_count):
         avg_total += array[i][4]
     avg_total = avg_total / albums_total_count
     avg_total = math.ceil(avg_total*10)/10
-    print("Средняя оценка: " + str(avg_total) + " / 10")
+    print("Average score: " + str(avg_total) + " / 10")
 
-    #ОБЩЕЕ КОЛИЧЕСТВО ОЦЕНОК
-    #количество всех оценок
+    #TOTAL NUM OF ALL SCORES
     all_scores_list = []
     all_scores_names = []
 
@@ -48,22 +47,22 @@ def basic_stats(array):
         all_scores_names.append(score)
         
     
-    #КОЛИЧЕСТВО ЗАПИСЕЙ ПО ДЕКАДАМ
+    #TOTAL NUM OF ALBUMS IN EACH DECADE
     all_decades_count = []
     all_decades_names = []
     
-    #создаем список со всеми годами, делим год на 10 и окгругляем вниз, т.о получаем список декад
+    #create list with all the years, divide it by 10 and floor it, hence we have a list of decades (1970 / 10 + floor = 197)
     all_years_divided = []
     for i in range(len(array)):
         num = array[i][3]
         all_years_divided.append(math.floor(num / 10))
     
-    #сортируем список декад по возрастанию
+    #sort by ascending
     all_years_divided = sorted(all_years_divided)
-    #убираем дубликаты и получаем итоговый список декад, при помощи этого списка будем считать 
+    #remove duplictaesand and we get a lsit of decades
     all_decades = list(dict.fromkeys(all_years_divided))
     
-    #для каждого элемента в списке декад прогоняем цикл
+    #for each element in decades list we do this...
     for d in range(len(all_decades)):
         current_dec = all_decades[d]
         count = 0
@@ -72,14 +71,14 @@ def basic_stats(array):
                 count += 1
         
         all_decades_count.append(count)
-        #если декада = 0, то год у записи неизвестен
+        #if decade is 0, then the year of release is unknown
         if(current_dec == 0):
-            all_decades_names.append("Год неизвестен")
+            all_decades_names.append("Year of release is unknown")
         else:
             all_decades_names.append(str(current_dec) + "0")
 
 
-    #НАХОДИМ ГОД С НАИБОЛЬШИМ КОЛ-ВОМ ЗАПИСЕЙ
+    #CALCULATE YEAR WITH THE BIGGEST NUM OF ALBUMS
     all_years = []
     all_years_nodupes = []
     
@@ -101,7 +100,7 @@ def basic_stats(array):
     max_year_count = all_years_dict[max_year]
     
     
-    #НАХОДИМ ГОД С НАИВЫСШИМ РЕЙТИНГОМ (если записей 5 и более)
+    #CALCULATE THE YEAR WITH THE BIGGEST AVG SCORE
     all_rating_dict = dict.fromkeys(all_years_nodupes)
     
     for y in range(len(all_years_nodupes)):
@@ -113,7 +112,12 @@ def basic_stats(array):
                 count += 1
                 score += int(array[i][4])
         
-        if(count >= 5):
+        config = configparser.ConfigParser()
+        config.read("conf.ini")
+
+        amount = int(config['TOPS']['top-year'])
+        
+        if(count >= amount):
             all_rating_dict[current_year] = math.ceil((score/count) * 100) /100
         else:
             del all_rating_dict[current_year]
@@ -124,7 +128,7 @@ def basic_stats(array):
     min_rating = min(all_rating_dict, key=all_rating_dict.get)
     min_rating_score = all_rating_dict[min_rating]
     
-    #НАХОДИМ ДЕСЯТИЛЕТИЕ С ЛУЧШИМ РЕЙТИНГОМ
+    #CALCULATE THE DECADE WITH THE BEST AVG SCORE
     max_decade_dict = dict.fromkeys(all_decades)
     
     for d in range(len(all_decades)):
@@ -136,7 +140,12 @@ def basic_stats(array):
                 count += 1
                 score += int(array[i][4])
         
-        if(count >= 10):
+        config = configparser.ConfigParser()
+        config.read("conf.ini")
+
+        amount = int(config['TOPS']['top-decades'])
+        
+        if(count >= amount):
             max_decade_dict[current_decade] = math.ceil((score/count) * 100) /100
         else:
             del max_decade_dict[current_decade]
@@ -148,32 +157,34 @@ def basic_stats(array):
     min_decade_rating = min(max_decade_dict, key=max_decade_dict.get)
     min_decade_score = max_decade_dict[min_decade_rating]
     
-
-    #десятилетие с лучшим ср. рейтингом
-    print("Десятилетие с лучшим ср. рейтингом: {}0 ({}/10)".format(str(max_decade_rating), str(max_decade_score)))
     
-    #десятилетие с худшим ср. рейтингом
-    print("Десятилетие с худшим ср. рейтингом: {}0 ({}/10)".format(str(min_decade_rating), str(min_decade_score)))
+    #printing all the shizzz...
+
+    #decade with best avg score
+    print("Decade with best avg score: {}0 ({}/10)".format(str(max_decade_rating), str(max_decade_score)))
+    
+    #decade with worst avg score
+    print("Decade with worst avg score: {}0 ({}/10)".format(str(min_decade_rating), str(min_decade_score)))
                 
-    #год с наибольшим кол-вом записей
-    print("Год с наибольшим кол-вом записей: {}-й ({} шт.)".format(str(max_year), str(max_year_count)))
+    #Year with biggest num of albums
+    print("Year with biggest count of albums: {}-й ({} шт.)".format(str(max_year), str(max_year_count)))
     
-    #год с наивысшим ср. рейтингом 
-    print("Год с лучшим ср. рейтингом: {}-й ({}/10)".format(str(max_rating), str(max_rating_score)))
+    #year with best avg score
+    print("Year with best avg score: {}-й ({}/10)".format(str(max_rating), str(max_rating_score)))
     
-    #год с наименьшим ср. рейтингом 
-    print("Год с худшим ср. рейтингом: {}-й ({}/10)".format(str(min_rating), str(min_rating_score)))
+    #year with worst avg score
+    print("Year with worst avg score: {}-й ({}/10)".format(str(min_rating), str(min_rating_score)))
 
-    #рисуем графики по полученным данным
-    #график по оценкам
-    print("\nОбщее количество оценок")
+    #draw graphs
+    #ratings graph
+    print("\nTotal amount of ratings")
     draw_graph(all_scores_list, all_scores_names)
-    #график по кол-ву альбомов по декадам
-    print("\nКоличество записей по декадам")
+    #decades graph
+    print("\nTotal amount of albums by decade")
     draw_graph(all_decades_count, all_decades_names)
 
-    #ср. рейтинг у десятилетий
-    print("\nСредний рейтинг у десятилетий")
+    #decades avg score
+    print("\nDecades avg score")
     for i in max_decade_dict:
         print("{}0 - ({}/10)".format(i, max_decade_dict[i]))
     
@@ -189,13 +200,13 @@ def artist_basic_stat(array, artist_name, command):
             score_list.append(array[i][4])
             
     if(len(new_array) == 0):
-        print("Нет записей об этом исполнителе")
+        print("No data about this artist")
     else:
         avg_score = math.ceil((avg_score/len(new_array)) * 100) /100
-        print("Средняя оценка: {}/10".format(avg_score))
-        print("Самая высокая оценка: {}/10".format(max(score_list)))
-        print("Самая низкая оценка: {}/10".format(min(score_list)))
-        print("Всего записей: {}".format(len(new_array)))
+        print("Avg rating: {}/10".format(avg_score))
+        print("The best score: {}/10".format(max(score_list)))
+        print("The worst score: {}/10".format(min(score_list)))
+        print("Total: {}".format(len(new_array)))
         if(command == "default"):
             print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
         elif(command == "top"):
@@ -246,7 +257,7 @@ def top_artists(array):
         if(max_score == 0):
             max_count = 0
         else:
-            print("{}. {} - {} ({} шт.)".format(max_count,max_art, max_score, count_dict[max_art]))
+            print("{}. {} - {} ({} albums)".format(max_count,max_art, max_score, count_dict[max_art]))
             new_dict[max_art] = 0
             max_count += 1
 
@@ -281,7 +292,7 @@ def top_artists_by_count(array):
         if(max_score == 0):
             max_count = 0
         else:
-            print("{}. {} - {} шт.".format(max_count,max_art, max_score))
+            print("{}. {} - {} albums".format(max_count,max_art, max_score))
             new_dict[max_art] = 0
             max_count += 1
     
@@ -327,7 +338,7 @@ def top_years(array):
         if(max_score == 0):
             max_count = 0
         else:
-            print("{}. {} - {} ({} шт.)".format(max_count,max_art, max_score, count_dict[max_art]))
+            print("{}. {} - {} ({} albums)".format(max_count,max_art, max_score, count_dict[max_art]))
             new_dict[max_art] = 0
             max_count += 1
     
@@ -382,7 +393,7 @@ def top_decades(array):
         if(max_score == 0):
             max_count = 0
         else:
-            print("{}. {}0 - {} ({} шт.)".format(max_count,max_art, max_score, count_dict[max_art]))
+            print("{}. {}0 - {} ({} albums)".format(max_count,max_art, max_score, count_dict[max_art]))
             new_dict[max_art] = 0
             max_count += 1
     
