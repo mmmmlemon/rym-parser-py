@@ -35,7 +35,7 @@ def load_file(filename):
         artists_csv_dict = {}
         
         #loading the name replacements
-        with open('artists.txt', mode='r', encoding='utf-8') as csv_file:
+        with open('artists.csv', mode='r', encoding='utf-8') as csv_file:
             reader = csv.reader(csv_file)
             artists_csv_dict = dict(reader)
         
@@ -205,7 +205,7 @@ def set_amount_for_top_decades(amount):
 
 #add name of artists for replacement
 def add_artist_for_replace(old_name, new_name):
-    with open('artists.txt','a', encoding='utf-8') as fd:
+    with open('artists.csv','a', encoding='utf-8') as fd:
         fd.write("\n\"{}\",\"{}\"".format(old_name, new_name))
     
     print("New name has been added!")
