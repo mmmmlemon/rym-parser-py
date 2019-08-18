@@ -103,6 +103,12 @@ def main_func():
         elif command == "set-top-decades":
             amount = input("Новое кол-во альбомов: ")
             set_amount_for_top_decades(amount)
+        #add new artist name replacement
+        elif command == "add-art-replace":
+            old_name = input("Введите старое имя: ")
+            new_name = input("Введите новое имя: ")
+            add_artist_for_replace(old_name, new_name)
+            global_album_list = load_file(global_filename)
         #help
         elif command == "help":
             clear()

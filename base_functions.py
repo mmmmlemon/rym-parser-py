@@ -178,8 +178,11 @@ def set_amount_for_top_decades(amount):
      print("Количество альбомов для top-decades изменено на {}".format(amount))
 
 #ф-ция, добавить имя в список имен для замены - исполнители
-#def add_artist_for_replace(old_name, new_name):
+def add_artist_for_replace(old_name, new_name):
+    with open('artists.txt','a') as fd:
+        fd.write("\n{},{}".format(old_name, new_name))
     
+    print("Запись добавлена!")
 
 #ф-ция, справка по командам
 def help():

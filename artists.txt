@@ -1,3 +1,6 @@
 Old_name, New_name
 Sonic-Youth, Sonic Youth
 Bowie, David Bowie
+Кино [Kino],Кино
+Iggy and The Stooges,The Stooges
+АукцЫон [Auktyon],АукцЫон
