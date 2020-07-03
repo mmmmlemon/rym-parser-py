@@ -1,3 +1,4 @@
+<div>
 <h3>Rate Your Music Parser<h3>
 <h4>Python<h4>
 <hr>
@@ -32,3 +33,4 @@
 
 <li><b>exit</b> - Exit the program</li> 
 </ul>
+</div>
