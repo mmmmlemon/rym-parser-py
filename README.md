@@ -2,7 +2,7 @@
 <h3>Rate Your Music Parser<h3>
 <h4>Python<h4>
 <hr>
-<p><a href="rateyourmusic.com">Rate Your Music</a> is a web-site dedicated to cataloguing and rating music records in a way similiar to <a href="imdb.com">IMDB</a>.</p>
+<p><a href="https://rateyourmusic.com">Rate Your Music</a> is a web-site dedicated to cataloguing and rating music records in a way similiar to <a href="https://imdb.com">IMDB</a>.</p>
 <p>RYM has an ability to extract user scores into a .csv file. This Python console application allows you to parse the data from the .csv file and  get statistics on your RYM scores.</p>
 <p>You need Python 3 installed on your computer ro run the programm.</p>
 
