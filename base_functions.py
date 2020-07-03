@@ -149,16 +149,16 @@ def show_album_spreadsheet_by_year(array, year, command):
     avg_score = math.ceil((avg_score/len(new_array)) * 100) /100
     
     if(len(new_array) == 0):
-        print("Нет записей за этот год")
+        print("No records for this year")
     else:
         if(command == "default"):
             new_array = sorted(new_array, key=lambda x: (x[1].lower()))
         elif(command=="top"):
             new_array = sorted(new_array, key=lambda x: (x[4]),reverse = True)
             
-        print("Средняя оценка за год: {}/10".format(avg_score))
-        print("Самая высокая оценка: {}".format(max(scores_list)))
-        print("Самая низкая оценка: {}".format(min(scores_list)))
+        print("Avg. score for year: {}/10".format(avg_score))
+        print("The highest score: {}".format(max(scores_list)))
+        print("The lowest score: {}".format(min(scores_list)))
         print(tabulate(new_array, headers = ['RYM Code', 'Artist', 'Album', 'Year', 'Score'], tablefmt="grid"))
    
 #change the data file name
@@ -212,19 +212,19 @@ def add_artist_for_replace(old_name, new_name):
 
 #ф-ция, справка по командам
 def help():
-    print("bs - Basic statistics")
-    print ("\nas - List of all albums")
-    print ("as-top - List of all albums (best to worst)")
-    print ("as-bottom - List of all albums (worst to best)")
-    print ("as-year - List of all albums of a certain year")
-    print ("as-year-top - List of all albums of a certain year (best to worst)")
-    print ("\nars - Basic statistic on artist")
-    print ("ars-top - Same as above, but the albums are best to worst")
-    print ("\ntop-art - The Top of Artists by avg. rating")
-    print("top-art-count - The Top of Artists by Number of Albums")
+    print("basic-stats - Basic statistics")
+    print ("album-spreadsheet - List of all albums")
+    print ("album-spreadsheet-top - List of all albums (best to worst)")
+    print ("album-spreadsheet-bottom - List of all albums (worst to best)")
+    print ("album-spreadsheet-year - List of all albums of a certain year")
+    print ("album-spreadsheet-year-top - List of all albums of a certain year (best to worst)")
+    print ("artist-stats - Basic statistic on artist")
+    print ("artist-stats-top - Same as above, but the albums are best to worst")
+    print ("top-artists - The Top of Artists by avg. rating")
+    print("top-artists-count - The Top of Artists by Number of Albums")
     print ("top-years - The Top of Years by avg. rating")
     print ("top-decades - The Top of Decades by avg. rating")
-    print ("\nchf - Change the data file name")
+    print ("change-filename - Change the data file name")
     print("set-top-art - Change the amount of albums to check for The Top of Artists")
     print("set-top-years - Change the amount of albums to check for The Top of Years")
     print("set-top-decades - Change the amount of albums to check for The Top of Decades")

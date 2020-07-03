@@ -28,53 +28,53 @@ def main_func():
         print("cmd: ")
         command = input()
         #basic stats
-        if command == "bs":
+        if command == "basic-stats":
             if(global_album_list != 0):
                 clear()
                 basic_stats(global_album_list)
         #albums spreadsheet
-        elif command == "as":
+        elif command == "album-spreadsheet":
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet(global_album_list, "default")
         #albums spreadsheet (best to worst)
-        elif command == "as-top":
+        elif command == "album-spreadsheet-top":
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet(global_album_list, "top")
         #albums spreadsheet (worst to best)
-        elif command == "as-bottom":
+        elif command == "album-spreadsheet-bottom":
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet(global_album_list, "bottom")
         #albums spreadsheet for a certain year
-        elif command == "as-year":
+        elif command == "album-spreadsheet-year":
             year = input("Input year: ")
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet_by_year(global_album_list, year, "default")
         #albums spreadsheet for a certain year (best to worst)
-        elif command == "as-year-top":
+        elif command == "album-spreadsheet-year-top":
             year = input("Input year: ")
             if(global_album_list != 0):
                 clear()
                 show_album_spreadsheet_by_year(global_album_list, year, "top")
         #artist stats
-        elif command == "ars":
+        elif command == "artist-stats":
             artist_name = input("Input artist name: ")
             clear()
             artist_basic_stat(global_album_list, artist_name, "default")
         #artist stats with albums best to worst
-        elif command == "ars-top":
+        elif command == "artist-stats-top":
             artist_name = input("Input artist name: ")
             clear()
             artist_basic_stat(global_album_list, artist_name, "top")
         #top artists by avg. rating
-        elif command == "top-art":
+        elif command == "top-artists":
             clear()
             top_artists(global_album_list)
         #top artists by number of ratings
-        elif command == "top-art-count":
+        elif command == "top-artists-count":
             clear()
             top_artists_by_count(global_album_list)
         #top years by avg. rating
@@ -86,7 +86,7 @@ def main_func():
             clear()
             top_decades(global_album_list)
         #change filename with RYM data
-        elif command == "chf":
+        elif command == "change-filename":
             clear()
             print("New file name (with extension): ")
             filename = input()
